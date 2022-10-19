@@ -13,7 +13,7 @@ int main()
         double y = acos(2 *sin(x));
         double z = sqrt(cos(pow(y, 2)));
         printf("y(x) = %lf\nz(y) = %lf\n", y, z);
-    }
+    }//fsadfgdsgsgs
     else
         printf("x value is incorrect!\n");
     return 0;
