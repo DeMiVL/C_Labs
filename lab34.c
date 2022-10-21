@@ -7,7 +7,7 @@ double	Integration_Rect(double(*)(double), int, double, double);
 
 int main()
 {
-	double precision = 1e-9;
+	double precision = 1e-6;
 	double a = 0, b = 0.5;
 	double integral, integral2;
 	int n = 2;
@@ -18,7 +18,7 @@ int main()
 		printf("%f %f %f\n", integral, integral2, fabs(integral2 - integral) / 3);
 		n += 2;
 	}
-	while(fabs(integral2 - integral) / 3 >= precision);
+	while(fabs(integral - integral2) / 3. >= precision);
 	printf("Counted integral = %f\n", integral2);
 	return 0;
 }
