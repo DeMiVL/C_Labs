@@ -8,11 +8,11 @@ void Cycle(unsigned int n)
 		printf("0");
 		return;
 	}
-	unsigned short digits = (unsigned short)log10(n);
+	unsigned short digits = (unsigned )log10(n);
 	for (int i = digits; i >= 0; i--)
 	{
-		printf("%u", n / (unsigned)pow(10, i));
-		n %= (unsigned)pow(10, i);
+		printf("%u", n / (unsigned )pow(10, i));
+		n %= (unsigned )pow(10, i);
 	}
 }
 
