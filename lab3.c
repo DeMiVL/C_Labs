@@ -4,6 +4,7 @@
 int main()
 {
     double a = 0;
+    double precision = 0.000001;
     double x;
 
     printf("Enter x step for argument -> ");
@@ -14,21 +15,21 @@ int main()
         printf("%lf\t%lf\n", a, exp(sin(a)));
         a += x;
     } 
-    while (a <= 0.250001f);
+    while (fabs(a - 0.25) <= precision);
 
     do
     {
         printf("%lf\t%lf\n", a, exp(a) - (1 / sqrt(a)));
         a += x;
     } 
-    while (a <= 0.500001);
+    while (fabs(a - 0.5) <= precision);
 
     printf("Enter x step for argument -> ");
     scanf("%lf", &x);
     printf("FOR CYCLE\n   x\t\tf(x)\n");
-    for(int j = 0; j*x <= 0.500001; j++)
+    for(int j = 0; fabs(j*x - 0.5) <= precision; j++)
     {
-        if(j * x <= 0.250001)
+        if(fabs(j * x - 0.25) <= precision)
         {
             printf("%lf\t%lf\n", j*x, exp(sin(j*x)));
         }
