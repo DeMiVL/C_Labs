@@ -40,23 +40,30 @@ int main()
     int otr = 0;
     printf("n -> ");
     scanf("%d", &n);
+    
     int A[n];
+
     otr = Fill(n, A);
+
     int i;
     for (i = 0; i < n; i++)
     {
         printf("%4d", A[i]);
     }
+
     int P[otr];
     int N[n - otr];
+
     UltraFill(n, A, P, N);
+   
     printf("\nP: ");
     for(i = 0; i < otr; i++)
     {
         printf("%4d\t", P[i]);
     }
+
     printf("\nN: ");
-        for(i = 0; i < n - otr; i++)
+    for(i = 0; i < n - otr; i++)
     {
         printf("%4d\t", N[i]);
     }
