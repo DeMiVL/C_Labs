@@ -3,8 +3,11 @@
 #include <stdlib.h>
 #include <time.h>
 
-void fill(int n, int* a, int* b, int *otr, int *neotr)
+struct PN  {int* P; int* N};
+
+struct PN fill(int n, int* a, int* b, int *otr, int *neotr)
 {
+    struct PN am;
     for (int i = 0; i < n; i++)
     {
         int elem = rand () % 101 - 50;
@@ -21,7 +24,9 @@ void fill(int n, int* a, int* b, int *otr, int *neotr)
             *neotr = *neotr + 1;
         }
     }
-    printf("%d\n", &a[0]);
+    am.P = a;
+    am.N = b;
+    return am;
 }
 
 int main()
@@ -34,8 +39,10 @@ int main()
     int *N      = NULL;
     int otr     = 0;
     int neotr   = 0;
-
-    fill(n, P, N, &otr, &neotr);
+    struct PN am;
+    am = fill(n, P, N, &otr, &neotr);
+    P = am.P;
+    N = am.N;
     /*
     for (int i = 0; i < n; i++)
     {
@@ -54,7 +61,6 @@ int main()
         }
     }
     */
-    printf("%d", &P[0]);
     if (otr > 0)
     {
         printf("P: ");
@@ -63,6 +69,8 @@ int main()
             printf("%4d ", P[i]);
         }
     }
+    free(P);
+
     if (neotr > 0)
     {
         printf("\nN: ");
@@ -71,9 +79,9 @@ int main()
             printf("%4d", N[i]);
         }
     }
-
-    free(P);
     free(N);
+    
+    printf("\n");
 
     return 0;
 }

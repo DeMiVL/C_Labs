@@ -8,7 +8,7 @@ void Cycle(unsigned int n)
 		printf("0");
 		return;
 	}
-	unsigned short digits = (unsigned )log10(n);
+	unsigned short digits = (unsigned)log10(n);
 	for (int i = digits; i >= 0; i--)
 	{
 		printf("%u", n / (unsigned )pow(10, i));
@@ -18,20 +18,14 @@ void Cycle(unsigned int n)
 
 void Recurse(unsigned int N)
 {
-    unsigned int r;
-	static short g = 0;
-    r = N % 10;
+    unsigned int r;   
     if (N == 0) 
 	{
-		if (g == 0)
-		{
-			printf("%u", N);
-		}
+		printf("0");
         return;
     }
-	g++;
+ 	r = N % 10;
     Recurse(N / 10);
-	g = 0;
     printf("%u", r);
 }
 
@@ -44,5 +38,6 @@ int main()
 	Recurse(a);
 	printf("\nCyc: ");
 	Cycle(a);
+	printf("\n");
 	return 0;
 }
