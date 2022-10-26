@@ -18,8 +18,8 @@ int main()
 		for(int i = 1; i <= n; i++)
 		{
 			integral  += step * Func((x + x + step) / 2, precision);
-			integral2 += (step / 2) * Func((x + x + step / 2) / 2, precision);
-			integral2 += (step / 2) * Func((x + x + step / 2 + step) / 2, precision);
+			integral2 += (step / 2.0) * Func((x + x + step / 2.0) / 2.0, precision);
+			integral2 += (step / 2.0) * Func((x + x + step / 2.0 + step) / 2.0, precision);
 			x += step;
 		}
 		printf("%f %f %f\n", integral, integral2, fabs(integral2 - integral) / 3.0);
