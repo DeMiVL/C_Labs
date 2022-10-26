@@ -16,7 +16,7 @@ void Fill(int n, int m, int (*a)[m])
 
 int MaxInColumnMinInAll(int n, int m, int (*a)[m])
 {
-    int max = a[0][0], max2 = abs(a[0][0]) * 1000;
+    int max = a[0][0], max2 = a[0][0];
     for(int j = 0; j < m; j++)
     {
         max = a[0][j];
@@ -54,8 +54,7 @@ int main()
         printf("\n");
     }
 
-
     printf("\n%4d\n", MaxInColumnMinInAll(n, m, A));
-    return 0;
 
+    return 0;
 }
