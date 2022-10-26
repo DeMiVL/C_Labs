@@ -24,7 +24,7 @@ int main()
     } 
     while (a - 0.5 < precision);
 
-    printf("Enter x step for argument -> ");
+    printf("\nEnter x step for argument -> ");
     scanf("%lf", &x);
     printf("FOR CYCLE\n   x\t\tf(x)\n");
     for(int j = 0; j*x - 0.5 < precision; j++)
