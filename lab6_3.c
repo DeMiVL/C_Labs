@@ -9,8 +9,19 @@ void fill(int n, int a[])
         a[i] = rand () % 101 - 50;
 }
 
+short Sign(int x)
+{
+    if (x == 0)
+        return 0;
+    if (x < 0)
+        return -1;
+    if (x > 0)
+        return 1;
+}
+
 int main()
 {
+    printf("%d - %d - %d\n", Sign(0), Sign(1), Sign(-3));
     srand(time(NULL));
     int n;
     int otr = 0, neotr = 0;
