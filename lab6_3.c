@@ -28,7 +28,7 @@ int main()
             neotr++;
     }
     int P[otr];
-    int N[neotr];
+    int N[n - otr];
     otr = 0; neotr = 0;
     for(i = 0; i < n; i++)
     {
