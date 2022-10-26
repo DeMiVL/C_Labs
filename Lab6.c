@@ -1,4 +1,3 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -43,30 +42,13 @@ int main()
     am = fill(n, P, N, &otr, &neotr);
     P = am.P;
     N = am.N;
-    /*
-    for (int i = 0; i < n; i++)
-    {
-        int elem = rand () % 101 - 50;
-        if (elem < 0)
-        {
-            P = (int*)realloc(P, (otr + 1) * sizeof(int));
-            P[otr] = elem;
-            otr++;
-        }
-        else
-        {
-            N = (int*)realloc(N, (neotr + 1) * sizeof(int));
-            N[neotr] = elem;
-            neotr++;
-        }
-    }
-    */
+
     if (otr > 0)
     {
         printf("P: ");
         for(int i = 0; i < otr; i++)
         {
-            printf("%4d ", P[i]);
+            printf("%4d\t", P[i]);
         }
     }
     free(P);
@@ -76,11 +58,11 @@ int main()
         printf("\nN: ");
         for(int i = 0; i < neotr; i++)
         {
-            printf("%4d", N[i]);
+            printf("%4d\t", N[i]);
         }
     }
     free(N);
-    
+
     printf("\n");
 
     return 0;
