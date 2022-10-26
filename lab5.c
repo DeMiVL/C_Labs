@@ -18,14 +18,14 @@ void Cycle(unsigned int n)
 
 void Recurse(unsigned int N)
 {
-    unsigned int r;   
-    if (N == 0) 
+	if (N == 0 /*&& r == 0*/)
 	{
 		printf("0");
-        return;
-    }
- 	r = N % 10;
-    Recurse(N / 10);
+		return;
+	}
+	unsigned int r = N % 10;
+	if (N/10 != 0)   
+    	Recurse(N / 10);
     printf("%u", r);
 }
 
