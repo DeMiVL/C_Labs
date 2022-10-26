@@ -19,7 +19,7 @@ void Cycle(unsigned int n)
 void Recurse(unsigned int N)
 {
 	unsigned int r = N % 10;
-	if (N/10 != 0)   
+	if (N / 10 != 0)   
     	Recurse(N / 10);
     printf("%u", r);
 }
