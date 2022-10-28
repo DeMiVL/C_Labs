@@ -18,6 +18,6 @@ int main()
         n++;
         i += c;
     }
-    printf("\n%c - %d\n", (char)(i / n), i / n);
+    printf("\n%c - %d\n", (i / n), i / n);
     return 0;
 }
