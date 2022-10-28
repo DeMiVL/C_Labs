@@ -26,51 +26,56 @@ char *reverseword(char word[])
     return word;
 }
 
-void sepwords(char str[], char delitel[])
+char *sepwords(char str[], char delitel[])
 {
-    char word[strlen(str)];
-    char newstroka[] = "";
+    char newstroka[strlen(str)];
+    newstroka[0] = 0;
     int len = 0;
-    word[strlen(str)] = '\0';
-    int i = 0;
-
     while(1)
     {
-        if (strchr(delitel, str[len + i]) == NULL)
-        {   
-            word[i] = str[len + i];
-            word[i + 1] = '\0';
-            i++;
-        }
-        else
+        char word[strlen(str)];
+        word[0] = 0;
+        int i = 0;
+        while(1)
         {
-            reverseword(word);
-            strcat(newstroka, word);
-            //printf("%d\n", *word);
-            len = strlen2(newstroka);
-            newstroka[len] = str[i];
-            newstroka[len + 1] = 0;
-            printf("\"%s\"\n", newstroka);
-            len = len + 1;
-            i = 0;
+            if (strchr(delitel, str[len + i]) == NULL)
+            {   
+                word[i] = str[len + i];
+                word[i + 1] = '\0';
+                i++;
+            }
+            else
+            {
+                if (strlen2(word) != 0)
+                {
+                    reverseword(word);
+                    strcat(newstroka, word);
+                }
+                len = strlen2(newstroka);
+                newstroka[len] = str[len];
+                newstroka[len + 1] = 0;
+                len = strlen2(newstroka);
+                break;
+            }
         }
-        if(str[i] == '\0')
+        if(str[len] == '\0')
         {
             break;
-        }
+        }    
     }
-    printf("\"%s\"\n", newstroka);
+    strcpy(str, newstroka);
+    return str;
 }
 
 int main()
 {
-    char strg[] = "Night time, cavity, come in\nDowntown, pony, work your pitch\nDaytime, dancer, I'll come inside\nGot my teacher, now carve your niche";
-    //char *strgnew;
+    char strg[] = "Night time, cavity, come in\nDowntown, pony, work your pitch\nDaytime, dancer, I'll come inside\nGot my teacher, now carve your niche\0";
+    
+    printf("\n%s\n\n", strg);
 
-    printf("%s\n", strg);
+    sepwords(strg, ", .!?\n");
 
-    sepwords(strg, ", \n");
-    //printf("%s\n", strgnew);
+    printf("\n%s\n\n", strg);
 
     return 0;
 }

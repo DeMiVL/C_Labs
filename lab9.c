@@ -1,11 +1,6 @@
 #include <stdio.h>
 #include <string.h>
 
-char* WordSeparation(char String[])
-{
-    
-}
-
 char *Reverse(char word[])
 {
     int i = 0;
@@ -26,6 +21,8 @@ int main()
 {
     char str[] = "Night time, cavity, come in\nDowntown, pony, work your pitch\nDaytime, dancer, I'll come inside\nGot my teacher, now carve your niche";
     char delitel[] = ", \n";
+
+    printf("%s\n",str);
 
     char *p = (strtok(str, delitel));
     printf(Reverse(p));
