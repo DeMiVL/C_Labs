@@ -60,7 +60,7 @@ int main()
 {
     char strg[] = "Night time, cavity, come in\nDowntown, pony, work your pitch\nDaytime, dancer, I'll come inside\nGot my teacher, now carve your niche\0";
     
-    printf("\n%s\n\n", strg);
+    printf("\n%s\n", strg);
 
     sepwords(strg, ", .!?\n");
 
