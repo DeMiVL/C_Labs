@@ -51,16 +51,36 @@ int main()
         printf("%4d", A[i]);
     }
 
+    if(otr != n)
+    {
+        printf("\nNo positive/zero elements\nP: ");
+        for(i = 0; i < n; i++)
+        {
+            printf("%4d\t", A[i]);
+        }
+        return 1;
+    }
+
+    if(otr == 0)
+    {
+        printf("\nNo negative elements\nN: ");
+        for(i = 0; i < n; i++)
+        {
+            printf("%4d\t", A[i]);
+        }
+        return 2;
+    }
+
     int P[otr];
     int N[n - otr];
 
     UltraFill(n, A, P, N);
-   
+
     printf("\nP: ");
     for(i = 0; i < otr; i++)
     {
         printf("%4d\t", P[i]);
-    }
+     }
 
     printf("\nN: ");
     for(i = 0; i < n - otr; i++)

@@ -64,7 +64,7 @@ int main()
 
     sepwords(strg, ", .!?\n");
 
-    printf("\n%s", strg);
+    printf("\n%s\n\n", strg);
 	
 	//getchar();
 	

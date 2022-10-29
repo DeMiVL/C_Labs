@@ -27,7 +27,6 @@ int MaxInColumnMinInAll(int n, int m, int (*a)[m])
                     max = a[i][j];
                 }
         }
-        
         if(max < max2)
             max2 = max;
     }
