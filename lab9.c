@@ -8,7 +8,7 @@ char *reverseword(char word[])
     while(i != j || j > i)
     {
         word[i] += word[j];
-        word[j] = word[i] - word[j];
+        word[j] =  word[i] - word[j];
         word[i] -= word[j];
         i++; j--;
         if (i == j || i > j) break;
@@ -62,7 +62,7 @@ int main()
     
     printf("\n%s\n", strg);
 
-    sepwords(strg, ", .!?\n");
+    sepwords(strg, ", .!\n?");
 
     printf("\n%s\n\n", strg);
 	
