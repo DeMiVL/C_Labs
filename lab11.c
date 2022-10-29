@@ -159,7 +159,7 @@ void ActorsMovies (struct node *head, char name[])
     int i = 0;
     while(1)
     {
-        if(strcmp(head->Actors, name) == 0)
+        if(strstr(head->Actors, name) != NULL)
         {
             i++;
             printf("Movie:\t  %s\nYear:\t  %d\nCountry:  %s\nDirector: %s\nStars:\t  %s\n\n", head->Title, head->year, head->Country, head->Director, head->Actors);
@@ -170,22 +170,14 @@ void ActorsMovies (struct node *head, char name[])
     if(i == 0) printf("No such actor in our data base\n");
 }
 
-// char** BacksPacks(const char* words[])
-// {
-//     printf("%s\n", words[2]);
-// }
-
 int main()
 {
-    struct node *Head = SetonFire("Django Unchained", "Quentin Tarantino", "USA", "Jamie Foxx", 2012);
-    Head = Append(Head, "February", "Oz Perkins", "USA", "Emma Roberts", 2015);
-    Head = Append(Head, "Terminator 2: Judgment Day", "James Cameron", "USA", "Arnold Schwarzenegger", 1991);
-    Head = Append(Head, "Terminator", "James Cameron", "USA", "Arnold Schwarzenegger", 1984);
-    Head = Append(Head, "Fate/stay night Movie: Heaven's Feel - I. Presage Flower", "Tomonori Sudou", "Japan", "Noriaki Sugiyama", 2018);
-
-    // const char *strings[] = {"one","two","three"};
-
-    // BacksPacks(strings);
+    struct node *Head = SetonFire("Django Unchained", "Quentin Tarantino", "USA", "Jamie Foxx, Christoph Waltz, Leonardo DiCaprio, Kerry Washington, Samuel L. Jackson", 2012);
+    Head = Append(Head, "February", "Oz Perkins", "USA", "Emma Roberts, Kiernan Shipka, Lucy Boynton, James Remar, Lauren Holly", 2015);
+    Head = Append(Head, "Terminator 2: Judgment Day", "James Cameron", "USA", "Arnold Schwarzenegger, Linda Hamilton, Edward Furlong, Robert Patrick", 1991);
+    Head = Append(Head, "Terminator", "James Cameron", "USA", "Arnold Schwarzenegger, Michael Biehn, Linda Hamilton", 1984);
+    Head = Append(Head, "Fate/stay night Movie: Heaven's Feel - I. Presage Flower", "Tomonori Sudou", "Japan", "Noriaki Sugiyama, Noriko Shitaya, Ayako Kawasumi, Kana Ueda", 2018);
+    Head = Append(Head, "Deftones - My Own Summer (Shove It)", "Dean Karr", "USA", "Chino Moreno, Chi Cheng, Abe Cunningham, Stephen Carpenter", 1997);
 
     printf("BASED\n");
 
