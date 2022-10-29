@@ -20,16 +20,16 @@ char *sepwords(char str[], char delitel[])
 {
     char newstroka[strlen(str)];
     newstroka[0] = 0;
-    int len = 0;
+    int iter     = 0;
     while(1)
     {
         char word[strlen(str)];
-        int i = 0;
+        int  i = 0;
         while(1)
         {
-            if (strchr(delitel, str[len + i]) == NULL)
+            if (strchr(delitel, str[iter + i]) == NULL)
             {   
-                word[i] = str[len + i];
+                word[i] = str[iter + i];
                 i++;
             }
             else
@@ -40,14 +40,14 @@ char *sepwords(char str[], char delitel[])
                     reverseword(word);
                     strcat(newstroka, word);
                 }
-                len = strlen(newstroka);
-                newstroka[len] = str[len];
-                newstroka[len + 1] = 0;
-                len = strlen(newstroka);
+                iter = strlen(newstroka);
+                newstroka[iter] = str[iter];
+                newstroka[iter + 1] = 0;
+                iter = strlen(newstroka);
                 break;
             }
         }
-        if(str[len] == '\0')
+        if(str[iter] == '\0')
         {
             break;
         }    
@@ -64,7 +64,9 @@ int main()
 
     sepwords(strg, ", .!?\n");
 
-    printf("\n%s\n\n", strg);
-
+    printf("\n%s", strg);
+	
+	//getchar();
+	
     return 0;
 }

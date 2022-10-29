@@ -2,7 +2,13 @@
 #include <stdlib.h>
 #include <time.h>
 
-void Fill(int n, int m, int (*a)[m])
+void fail()
+{
+    printf("Memory allocation failure!\n");
+    exit(EXIT_FAILURE);
+}
+
+void Fill(int n, int m, int **a)
 {
     int i, j;
     for (i = 0; i < n; i++)
@@ -14,7 +20,7 @@ void Fill(int n, int m, int (*a)[m])
     }
 }
 
-int MaxInColumnMinInAll(int n, int m, int (*a)[m])
+int MaxInColumnMinInAll(int n, int m, int **a)
 {
     int max = a[0][0], max2 = abs(a[0][0]) * 1000;
     for(int j = 0; j < m; j++)
@@ -27,7 +33,6 @@ int MaxInColumnMinInAll(int n, int m, int (*a)[m])
                     max = a[i][j];
                 }
         }
-        
         if(max < max2)
             max2 = max;
     }
@@ -40,22 +45,40 @@ int main()
     int n, m;
     printf("n -> ");
     scanf("%d", &n);
+
+    int **a = (int **)malloc(n * sizeof(int *));
+
+    if (!a)
+        fail();
+
     printf("m -> ");
     scanf("%d", &m);
-    int A[n][m];
 
-    Fill(n, m, A);
-
-    for(int i = 0; i < n; i++)
+    int i, j;
+    for (i = 0; i < n; i++)
     {
-        for (int j = 0; j < m; j++)
+        a[i] = (int *)malloc(m * sizeof(int));
+        if (!a[i])
+            free(a);
+            fail();
+    }
+    
+    Fill(n, m, a);
+
+    for(i = 0; i < n; i++)
+    {
+        for (j = 0; j < m; j++)
         {
-            printf("%4d\t", A[i][j]);
+            printf("%4d\t", a[i][j]);
         }
         printf("\n");
     }
 
-    printf("\n%d\n", MaxInColumnMinInAll(n, m, A));
+    printf("\n%4d\n", MaxInColumnMinInAll(n, m, a));
+
+    for (i = 0; i < n; i++)
+        free(a[i]);
+    free(a);
 
     return 0;
 }
