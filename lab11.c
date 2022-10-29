@@ -13,19 +13,20 @@ struct node
     char*       Actors;
 
     // list settings:
-    int         number;
     struct node* next;
     struct node* prev;
 };
 
-struct node *KillHead(struct node *head);
-struct node *KillbyName(struct node *head, char name[]);
-void KillTail(struct node *head);
-struct node *NewMovie(char title[], char director[], char country[], char actr[], int year);
-void Append(struct node *head, char title[], char director[], char country[], char actr[], int year);
-struct node *FreeList(struct node *head);
+struct node *KillHead     (struct node *head);
+struct node *KillbyName   (struct node *head, char name[]);
+struct node *KillTail     (struct node *head);
+void         ChecktheClaws(struct node *head);
+void         ActorsMovies (struct node *head, char name[]);
+struct node *SetonFire    (char title[], char director[], char country[], char actr[], int year);
+struct node *Append       (struct node *head, char title[], char director[], char country[], char actr[], int year);
+struct node *FreeList     (struct node *head);
 
-struct node *NewMovie(char title[], char director[], char country[], char actr[], int year)
+struct node *SetonFire(char title[], char director[], char country[], char actr[], int year)
 {
     struct node *Movie1 = malloc(sizeof(struct node));
     Movie1->Actors      = actr;
@@ -38,8 +39,9 @@ struct node *NewMovie(char title[], char director[], char country[], char actr[]
     return Movie1;
 }
 
-void Append(struct node *head, char title[], char director[], char country[], char actr[], int year)
+struct node *Append(struct node *head, char title[], char director[], char country[], char actr[], int year)
 {
+    if(head == NULL) return SetonFire(title, director, country, actr, year);
     struct node *Movie1 = malloc(sizeof(struct node));
     while(head->next != NULL)
     {
@@ -53,6 +55,11 @@ void Append(struct node *head, char title[], char director[], char country[], ch
     Movie1->next        = NULL;
     Movie1->prev        = head;
     head->next          = Movie1;
+    while(head->prev != NULL)
+    {
+        head = head->prev;
+    }
+    return head;
 }
 
 struct node *KillbyName(struct node *head, char name[])
@@ -101,14 +108,21 @@ struct node *KillHead(struct node *head)
     return head;
 }
 
-void KillTail(struct node *head)
+struct node *KillTail(struct node *head)
 {
+    if(head->next == NULL && head->prev == NULL)
+    {
+        free(head);
+        return NULL;
+    }
     while(head->next != NULL)
         head = head->next;
-    //printf("%s\n", head->Actors);
     head = head->prev;
     free(head->next);
     head->next = NULL;
+    while(head->prev != NULL)
+        head = head->prev;
+    return head;
 }
 
 struct node *FreeList(struct node *head)
@@ -126,17 +140,78 @@ struct node *FreeList(struct node *head)
     return NULL;
 }
 
+void ChecktheClaws(struct node *head)
+{
+    printf("Movie:\t  %s\nYear:\t  %d\nCountry:  %s\nDirector: %s\nStars:\t  %s\n\n", head->Title, head->year, head->Country, head->Director, head->Actors);
+    while(1)
+    {
+        if (head->next == NULL)
+        {
+            break;
+        }
+        head = head->next;
+        printf("Movie:\t  %s\nYear:\t  %d\nCountry:  %s\nDirector: %s\nStars:\t  %s\n\n", head->Title, head->year, head->Country, head->Director, head->Actors);
+    }
+}
+
+void ActorsMovies (struct node *head, char name[])
+{
+    int i = 0;
+    while(1)
+    {
+        if(strcmp(head->Actors, name) == 0)
+        {
+            i++;
+            printf("Movie:\t  %s\nYear:\t  %d\nCountry:  %s\nDirector: %s\nStars:\t  %s\n\n", head->Title, head->year, head->Country, head->Director, head->Actors);
+        }
+        if (head->next == NULL) break;
+        head = head->next;
+    }
+    if(i == 0) printf("No such actor in our data base\n");
+}
+
+// char** BacksPacks(const char* words[])
+// {
+//     printf("%s\n", words[2]);
+// }
+
 int main()
 {
-    struct node *Head = NewMovie("Django Unchained", "Quentin Tarantino", "USA", "Jamie Fox", 2012);
-    Append(Head, "February", "Oz Perkins", "USA", "Emma Roberts", 2015);
-    Append(Head, "Terminator 2: Judgment Day", "James Cameron", "USA", "Arnold Schwarzenegger", 1991);
+    struct node *Head = SetonFire("Django Unchained", "Quentin Tarantino", "USA", "Jamie Foxx", 2012);
+    Head = Append(Head, "February", "Oz Perkins", "USA", "Emma Roberts", 2015);
+    Head = Append(Head, "Terminator 2: Judgment Day", "James Cameron", "USA", "Arnold Schwarzenegger", 1991);
+    Head = Append(Head, "Terminator", "James Cameron", "USA", "Arnold Schwarzenegger", 1984);
+    Head = Append(Head, "Fate/stay night Movie: Heaven's Feel - I. Presage Flower", "Tomonori Sudou", "Japan", "Noriaki Sugiyama", 2018);
 
-    printf("%s - %s - %s\n", Head->Actors, Head->next->Actors, Head->next->next->Actors);
+    // const char *strings[] = {"one","two","three"};
 
-    /*Head =*/ KillTail(Head);
-    printf("%s - %s\n", Head->Actors, Head->next->Actors);
-    //KillTail(Head);
+    // BacksPacks(strings);
+
+    printf("BASED\n");
+
+    ChecktheClaws(Head);
+
+    printf("ACTOR Arnold Schwarzenegger\n");
+
+    ActorsMovies(Head, "Arnold Schwarzenegger");
+
+    printf("Tail got Killed\n");
+
+    Head = KillTail(Head);
+
+    ChecktheClaws(Head);
+
+    printf("Head got Killed\n");
+
+    Head = KillHead(Head);
+    
+    ChecktheClaws(Head);
+
+    printf("February got Killed\n");
+
+    Head = KillbyName(Head, "February");
+
+    ChecktheClaws(Head);
 
     FreeList(Head);
 

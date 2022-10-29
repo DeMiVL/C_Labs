@@ -13,11 +13,14 @@ int main()
         {
             c = _getch();
             if (c == 84) break;
+            continue;
         }
         n++;
         i += c;
-        printf("\'%c\'", c);
+        printf("\33[2K\r");
+        printf("\'%c\'", i / n);
     }
-    printf("\n\'%c\'\n", (i / n));
+    printf("\33[2K\r");
+    printf("%c\n", (i / n));   
     return 0;
 }
