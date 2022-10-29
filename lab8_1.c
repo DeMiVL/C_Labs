@@ -19,8 +19,6 @@ int main()
         i += c;
         printf("\33[2K\r");
         printf("\'%c\'", i / n);
-    }
-    printf("\33[2K\r");
-    printf("%c\n", (i / n));   
+    } 
     return 0;
 }

@@ -53,7 +53,7 @@ int main()
 
     if(otr != n)
     {
-        printf("\nNo positive/zero elements\nP: ");
+        printf("\nNo non-negative elements\nP: ");
         for(i = 0; i < n; i++)
         {
             printf("%4d\t", A[i]);

@@ -5,13 +5,13 @@ char *reverseword(char word[])
 {
     int i = 0;
     int j = strlen(word) - 1;
-    while(i != j || j > i)
+    while(j > i)
     {
         word[i] += word[j];
         word[j] =  word[i] - word[j];
-        word[i] -= word[j];
-        i++; j--;
-        if (i == j || i > j) break;
+        word[i++] -= word[j--];
+        //i++; j--;
+        if (i >= j) break;
     }
     return word;
 }
