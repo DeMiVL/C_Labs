@@ -6,11 +6,11 @@
 struct node
 {
     // element settings:
-    char*       year;
-    char*       Title;
-    char*       Director;
-    char*       Country;
-    char*       Actors;
+    char*        year;
+    char*        Title;
+    char*        Director;
+    char*        Country;
+    char*        Actors;
 
     // list settings:
     struct node* next;
