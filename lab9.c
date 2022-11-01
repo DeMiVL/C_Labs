@@ -11,7 +11,6 @@ char *reverseword(char word[])
         word[j] =  word[i] - word[j];
         word[i++] -= word[j--];
         //i++; j--;
-        if (i >= j) break;
     }
     return word;
 }
@@ -39,8 +38,8 @@ char *sepwords(char str[], char delitel[])
                     word[i] = '\0';
                     reverseword(word);
                     strcat(newstroka, word);
+                    iter = strlen(newstroka);
                 }
-                iter = strlen(newstroka);
                 newstroka[iter] = str[iter];
                 newstroka[iter + 1] = 0;
                 iter = strlen(newstroka);
