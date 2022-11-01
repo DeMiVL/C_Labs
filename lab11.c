@@ -70,8 +70,7 @@ struct node *KillbyName(struct node *head, char name[])
         {
             if (head->next == NULL && head->prev ==NULL)
             {
-                free(head);
-                return NULL;
+                return FreeList(head);
             }
             if (head->next == NULL)
             {
