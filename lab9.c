@@ -7,10 +7,9 @@ char *reverseword(char word[])
     int j = strlen(word) - 1;
     while(j > i)
     {
-        word[i] += word[j];
-        word[j] =  word[i] - word[j];
+        word[i]   += word[j];
+        word[j]    =  word[i] - word[j];
         word[i++] -= word[j--];
-        //i++; j--;
     }
     return word;
 }
@@ -58,14 +57,12 @@ char *sepwords(char str[], char delitel[])
 int main()
 {
     char strg[] = "Night time, cavity, come in\nDowntown, pony, work your pitch\nDaytime, dancer, I'll come inside\nGot my teacher, now carve your niche\0";
-    
+
     printf("\n%s\n", strg);
 
     sepwords(strg, ", .!\n?");
 
     printf("\n%s\n\n", strg);
-	
-	//getchar();
-	
+
     return 0;
 }
