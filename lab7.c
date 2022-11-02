@@ -54,7 +54,7 @@ int main()
         printf("\n");
     }
 
-    printf("\n%d\n", MaxInColumnMinInAll(n, m, A));
+    printf("\nMin of max from cols - %d\n", MaxInColumnMinInAll(n, m, A));
 
     return 0;
 }

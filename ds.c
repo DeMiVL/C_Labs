@@ -39,43 +39,20 @@ char getch(void)
   return getch_(0);
 }
 
-int main()
+/* Read 1 character with echo */
+char getche(void) 
 {
-    int  i = 0;
-    int  n = 0;
-    char c;
-    while(1)
-    {
-        c  = getch();
-        if(c != 27)
-        {
-          printf("saf\n");
-          n++;
-          i += c;
-          printf("\33[2K\r");
-          printf("\'%c\'\n", i / n);
-          continue;
-        }        
-        if(c == 27)
-        {
-          c = getch();
+  return getch_(1);
+}
 
-          if (c == 79) 
-          {
-            c = getch();
-            if(c == 80)
-            {        
-              printf("s\n");      
-              break;
-            }          
-          }
-          if (c == 65 || c == 66 || c == 68 || c == 67) 
-          {
-            continue;
-          }
-          continue;
-        }
-    } 
-    printf("\n");
-    return 0;
+/* Let's test it out */
+int main(void) {
+  char c;
+  printf("(getche example) please type a letter: ");
+  c = getche();
+  printf("\nYou typed: %c\n", c);
+  printf("(getch example) please type a letter...");
+  c = getch();
+  printf("\nYou typed: %c\n", c);
+  return 0;
 }
