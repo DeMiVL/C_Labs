@@ -49,17 +49,15 @@ int main()
         c  = getch();
         if(c != 27)
         {
-          printf("saf\n");
           n++;
           i += c;
           printf("\33[2K\r");
           printf("\'%c\'\n", i / n);
           continue;
         }        
-        if(c == 27)
+        if(c == 27 || c == 65 || c == 66 || c == 68 || c == 67)
         {
           c = getch();
-
           if (c == 79) 
           {
             c = getch();
@@ -68,10 +66,6 @@ int main()
               printf("s\n");      
               break;
             }          
-          }
-          if (c == 65 || c == 66 || c == 68 || c == 67) 
-          {
-            continue;
           }
           continue;
         }
