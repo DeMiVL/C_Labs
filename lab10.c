@@ -59,8 +59,10 @@ int main()
     {
         a[i] = (int *)malloc(m * sizeof(int));
         if (!a[i])
+        {
             free(a);
             fail();
+        }
     }
     
     Fill(n, m, a);
