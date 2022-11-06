@@ -8,7 +8,7 @@ char *reverseword(char word[])
     while(j > i)
     {
         word[i]   += word[j];
-        word[j]    =  word[i] - word[j];
+        word[j]    = word[i] - word[j];
         word[i++] -= word[j--];
     }
     return word;

@@ -55,7 +55,7 @@ int main()
           printf("\'%c\'\n", i / n);
           continue;
         }        
-        if(c == 27 || c == 65 || c == 66 || c == 68 || c == 67)
+        if(c == 27)
         {
           c = getch();
           if (c == 79) 

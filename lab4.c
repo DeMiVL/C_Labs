@@ -25,7 +25,7 @@ int main()
 		printf("%f %f %f\n", integral, integral2, fabs(integral2 - integral) / 3.0);
 		n *= 2;
 	}
-	while(fabs(integral - integral2) / 3.0 >= precision);
+	while(fabs(integral - integral2) / 3.0 > precision);
 	printf("Counted integral = %f\n", integral);
 	return 0;
 }
