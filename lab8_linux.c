@@ -77,7 +77,6 @@ int main()
       }
       if(c != 27)
       {
-        printf("nelol\n");
         n++;
         i += c;
         printf("\33[2K\r");
