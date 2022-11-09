@@ -43,32 +43,46 @@ int main()
 {
     int  i = 0;
     int  n = 0;
-    char c;
     while(1)
     {
-        c  = getch();
-        if(c != 27)
-        {
-          n++;
-          i += c;
-          printf("\33[2K\r");
-          printf("\'%c\'\n", i / n);
-          continue;
-        }        
-        if(c == 27)
+      char c = getch();;
+      if(c == 27)
+      {
+        c = getch();
+        if (c == 79)
         {
           c = getch();
-          if (c == 79) 
-          {
-            c = getch();
-            if(c == 80)
-            {        
-              printf("s\n");      
-              break;
-            }          
+          if (c == 80) 
+          { 
+            return 0;
           }
+          else
+          {
+            continue;
+          }
+        }
+        else if(c == 91)
+        {
+          c = getch();
+          if (c == 65 || c == 66 || c == 67 || c == 68 || c == 70 || c == 72)
+          {
+            continue;
+          }
+          c = getch();
+          if (c == 126) continue;
+          c = getch();
+          if (c == 126) continue;
           continue;
         }
+      }
+      if(c != 27)
+      {
+        n++;
+        i += c;
+        printf("\33[2K\r");
+        printf("\'%c - %d\'\n", i / n, i / n);
+        continue;
+      }        
     } 
     printf("\n");
     return 0;
