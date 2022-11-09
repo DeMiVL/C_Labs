@@ -69,9 +69,9 @@ int main()
             continue;
           }
           c = getch();
-          if (c == 126)continue;
+          if (c == 126) continue;
           c = getch();
-          if (c == 126)continue;
+          if (c == 126) continue;
           continue;
         }
       }
