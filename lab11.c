@@ -68,7 +68,7 @@ struct node *KillbyName(struct node *head, char name[])
     {
         if (strcmp(head->Title, name) == 0)
         {
-            if (head->next == NULL && head->prev ==NULL)
+            if (head->next == NULL && head->prev == NULL)
             {
                 return FreeList(head);
             }
