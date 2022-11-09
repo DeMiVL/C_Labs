@@ -48,25 +48,32 @@ int main()
       char c = getch();;
       if(c == 27)
       {
-        printf("lol\n");
         c = getch();
-        if (c == 79) 
+        if (c == 79)
         {
           c = getch();
-          if(c == 80)
-          {        
-            break;
+          if (c == 80) 
+          { 
+            return 0;
+          }
+          else
+          {
+            continue;
           }
         }
-        while(c != 126 || c != 70)
+        else if(c == 91)
         {
           c = getch();
-          if (c == 27)
+          if (c == 65 || c == 66 || c == 67 || c == 68 || c == 70 || c == 72)
+          {
             continue;
-          printf("%d-", c);
+          }
+          c = getch();
+          if (c == 126)continue;
+          c = getch();
+          if (c == 126)continue;
+          continue;
         }
-        printf("d\n");
-        continue;
       }
       if(c != 27)
       {
