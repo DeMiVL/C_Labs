@@ -1,16 +1,16 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <conio.h>
+
 
 struct node
 {
     // element settings:
-    char*       year;
-    char*       Title;
-    char*       Director;
-    char*       Country;
-    char*       Actors;
+    char*        year;
+    char*        Title;
+    char*        Director;
+    char*        Country;
+    char*        Actors;
 
     // list settings:
     struct node* next;
@@ -40,21 +40,25 @@ struct node *SetonFire(char title[], char director[], char country[], char actr[
 }
 
 struct node *Append(struct node *head, char title[], char director[], char country[], char actr[], char year[])
-{
+{   
+    //printf("Appe%s\n%s\n%s\n%s\n%s\n", title, director, country, actr, year);
     if(head == NULL) return SetonFire(title, director, country, actr, year);
     struct node *Movie1 = malloc(sizeof(struct node));
     while(head->next != NULL)
     {
         head = head->next;
     }
+
     Movie1->Actors      = actr;
     Movie1->Director    = director;
     Movie1->Country     = country;
     Movie1->Title       = title;
     Movie1->year        = year;
+
     Movie1->next        = NULL;
     Movie1->prev        = head;
     head->next          = Movie1;
+
     while(head->prev != NULL)
     {
         head = head->prev;
@@ -68,10 +72,9 @@ struct node *KillbyName(struct node *head, char name[])
     {
         if (strcmp(head->Title, name) == 0)
         {
-            if (head->next == NULL && head->prev ==NULL)
+            if (head->next == NULL && head->prev == NULL)
             {
-                free(head);
-                return NULL;
+                return FreeList(head);
             }
             if (head->next == NULL)
             {
@@ -82,7 +85,6 @@ struct node *KillbyName(struct node *head, char name[])
             {
                 return KillHead(head); 
             }
-
             head->prev->next = head->next;
             head = head->prev;
             free(head->next->prev);
@@ -110,7 +112,7 @@ struct node *KillHead(struct node *head)
 
 struct node *KillTail(struct node *head)
 {
-    if(head->next == NULL && head->prev == NULL)
+    if(head->next == NULL)
     {
         free(head);
         return NULL;
@@ -154,7 +156,7 @@ void ChecktheClaws(struct node *head)
     }
 }
 
-void ActorsMovies (struct node *head, char name[])
+void ActorsMovies(struct node *head, char name[])
 {
     int i = 0;
     while(1)
@@ -177,52 +179,60 @@ FILE *SaveBD(struct node *bd, FILE *BD)
     {
         BD = fopen("Movies_DB.txt", "w+");
     }
-    fputs(bd->Title,    BD ); fputc(10, BD);
-    fputs(bd->year,     BD ); fputc(10, BD);
-    fputs(bd->Country,  BD ); fputc(10, BD);
-    fputs(bd->Director, BD ); fputc(10, BD);
-    fputs(bd->Actors,   BD ); fputc(10, BD);
+
+    fputs(bd->Title,    BD ); fputc('\n', BD);
+    fputs(bd->Director, BD ); fputc('\n', BD);
+    fputs(bd->Country,  BD ); fputc('\n', BD);
+    fputs(bd->Actors,   BD ); fputc('\n', BD);
+    fputs(bd->year,     BD ); fputc('\n', BD);
+
     do
     {
-        bd = bd->next;
-        fputs(bd->Title,    BD ); fputc(10, BD);
-        fputs(bd->year,     BD ); fputc(10, BD);
-        fputs(bd->Country,  BD ); fputc(10, BD);
-        fputs(bd->Director, BD ); fputc(10, BD);
-        fputs(bd->Actors,   BD ); fputc(10, BD);
+        bd  = bd->next;
+        fputs(bd->Title,    BD ); fputc('\n', BD);
+        fputs(bd->Director, BD ); fputc('\n', BD);
+        fputs(bd->Country,  BD ); fputc('\n', BD);
+        fputs(bd->Actors,   BD ); fputc('\n', BD);
+        fputs(bd->year,     BD ); fputc('\n', BD);
     }
     while (bd->next != NULL);
     return BD;
 };
 
+struct node *OpenDB(struct node *bd, char bd_name[])
+{
+    if (strcmp(bd_name, "") == 0)
+    {
+        return NULL;
+    }
+
+    char title   [100] = " ";
+    char year    [4  ] = " ";
+    char country [100] = " ";
+    char director[100] = " ";
+    char actors  [100] = " ";
+
+    FILE * DB = fopen(bd_name, "r");
+
+    bd = malloc(sizeof(struct node));
+
+    //Append(bd, fgets(title,    100,DB), fgets(director,    100,DB), fgets(country,    100,DB), fgets(actors,    100,DB), fgets(year,    100,DB));
+
+    fclose(DB);
+
+    return NULL;
+}
+
 int main()
 {
-    struct node *Head;
-    FILE *BD = NULL;
+    FILE        *BD   = NULL;
 
-    BD = fopen("Movies_DB.txt", "w+");
-    if(BD)
+    struct node *Head = NULL;
+
+    Head = OpenDB(Head, "Movies_DB.txt");
+
+    if (Head == NULL)
     {
-        fseek (BD, 0, SEEK_END);
-        long size = ftell(BD);
-        if(size == 0)
-        {
-            printf("no such file in the current directory. Creating the BASE\n");
-            Head = SetonFire("Django Unchained", "Quentin Tarantino", "USA", "Jamie Foxx, Christoph Waltz, Leonardo DiCaprio, Kerry Washington, Samuel L. Jackson", "2012");
-            Head = Append(Head, "February", "Oz Perkins", "USA", "Emma Roberts, Kiernan Shipka, Lucy Boynton, James Remar, Lauren Holly", "2015");
-            Head = Append(Head, "Terminator 2: Judgment Day", "James Cameron", "USA", "Arnold Schwarzenegger, Linda Hamilton, Edward Furlong, Robert Patrick", "1991");
-            Head = Append(Head, "Terminator", "James Cameron", "USA", "Arnold Schwarzenegger, Michael Biehn, Linda Hamilton", "1984");
-            Head = Append(Head, "Fate/stay night Movie: Heaven's Feel - I. Presage Flower", "Tomonori Sudou", "Japan", "Noriaki Sugiyama, Noriko Shitaya, Ayako Kawasumi, Kana Ueda", "2018");
-            Head = Append(Head, "Deftones - My Own Summer (Official Music Video)", "Dean Karr", "USA", "Chino Moreno, Stephen Carpenter, Chi Cheng, Abe Cunningham", "1997");
-        }
-        else
-        {
-            
-        }
-    }
-    else
-    {
-        printf("no such file in the current directory. Creating the BASE\n");
         Head = SetonFire("Django Unchained", "Quentin Tarantino", "USA", "Jamie Foxx, Christoph Waltz, Leonardo DiCaprio, Kerry Washington, Samuel L. Jackson", "2012");
         Head = Append(Head, "February", "Oz Perkins", "USA", "Emma Roberts, Kiernan Shipka, Lucy Boynton, James Remar, Lauren Holly", "2015");
         Head = Append(Head, "Terminator 2: Judgment Day", "James Cameron", "USA", "Arnold Schwarzenegger, Linda Hamilton, Edward Furlong, Robert Patrick", "1991");
@@ -230,13 +240,18 @@ int main()
         Head = Append(Head, "Fate/stay night Movie: Heaven's Feel - I. Presage Flower", "Tomonori Sudou", "Japan", "Noriaki Sugiyama, Noriko Shitaya, Ayako Kawasumi, Kana Ueda", "2018");
         Head = Append(Head, "Deftones - My Own Summer (Official Music Video)", "Dean Karr", "USA", "Chino Moreno, Stephen Carpenter, Chi Cheng, Abe Cunningham", "1997");
     }
-    printf("BASED\n");
+
+    printf("BASE\n");
 
     ChecktheClaws(Head);
 
-    printf("ACTOR Arnold Schwarzenegger\n");
+    // getchar();
 
-    ActorsMovies(Head, "Arnold Schwarzenegger");
+    // printf("ACTOR Arnold Schwarzenegger\n");
+
+    // ActorsMovies(Head, "Arnold Schwarzenegger");
+
+    // getchar();
 
     // printf("Tail got Killed\n");
 
@@ -244,11 +259,7 @@ int main()
 
     // ChecktheClaws(Head);
 
-    // printf("Head got Killed\n");
-
-    // Head = KillHead(Head);
-    
-    // ChecktheClaws(Head);
+    // getchar();
 
     // printf("February got Killed\n");
 
@@ -256,7 +267,15 @@ int main()
 
     // ChecktheClaws(Head);
 
-    BD = SaveBD(Head, BD);    
+    // getchar();
+
+    // printf("Head got Killed\n");
+
+    // Head = KillHead(Head);
+    
+    // ChecktheClaws(Head);
+
+    SaveBD(Head, BD);
 
     FreeList(Head);
 
