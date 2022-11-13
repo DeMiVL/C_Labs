@@ -26,34 +26,39 @@ struct node *SetonFire    (char title[], char director[], char country[], char a
 struct node *Append       (struct node *head, char title[], char director[], char country[], char actr[], char year[]);
 struct node *FreeList     (struct node *head);
 
-struct node *SetonFire(char title[], char director[], char country[], char actr[], char year[])
+struct node *SetonFire(char *title, char *director, char *country, char *actr, char *year)
 {
     struct node *Movie1 = malloc(sizeof(struct node));
-    Movie1->Actors      = actr;
-    Movie1->Director    = director;
-    Movie1->Country     = country;
-    Movie1->Title       = title;
-    Movie1->year        = year;
+
+    Movie1->Actors      = strdup(actr);
+    Movie1->Director    = strdup(director);
+    Movie1->Country     = strdup(country);
+    Movie1->Title       = strdup(title);
+    Movie1->year        = strdup(year);
+
     Movie1->next        = NULL;
     Movie1->prev        = NULL;
+
     return Movie1;
 }
 
-struct node *Append(struct node *head, char title[], char director[], char country[], char actr[], char year[])
+struct node *Append(struct node *head, char *title, char *director, char *country, char *actr, char *year)
 {   
-    //printf("Appe%s\n%s\n%s\n%s\n%s\n", title, director, country, actr, year);
-    if(head == NULL) return SetonFire(title, director, country, actr, year);
+    if(head == NULL)
+    { 
+        return SetonFire(title, director, country, actr, year);
+    }
     struct node *Movie1 = malloc(sizeof(struct node));
     while(head->next != NULL)
     {
         head = head->next;
     }
 
-    Movie1->Actors      = actr;
-    Movie1->Director    = director;
-    Movie1->Country     = country;
-    Movie1->Title       = title;
-    Movie1->year        = year;
+    Movie1->Actors      = strdup(actr);
+    Movie1->Director    = strdup(director);
+    Movie1->Country     = strdup(country);
+    Movie1->Title       = strdup(title);
+    Movie1->year        = strdup(year);
 
     Movie1->next        = NULL;
     Movie1->prev        = head;
@@ -79,6 +84,11 @@ struct node *KillbyName(struct node *head, char name[])
             if (head->next == NULL)
             {
                 head->prev->next = NULL;
+                free(head->Actors);
+                free(head->Country);
+                free(head->Director);
+                free(head->year);
+                free(head->Title);
                 free(head);
             }
             if (head->prev == NULL)
@@ -87,6 +97,11 @@ struct node *KillbyName(struct node *head, char name[])
             }
             head->prev->next = head->next;
             head = head->prev;
+            free(head->next->prev->Actors);
+            free(head->next->prev->Country);
+            free(head->next->prev->Director);
+            free(head->next->prev->Title);
+            free(head->next->prev->year);
             free(head->next->prev);
             head->next->prev = head;
             while(head->prev != NULL)
@@ -105,6 +120,11 @@ struct node *KillbyName(struct node *head, char name[])
 struct node *KillHead(struct node *head)
 {
     head = head->next;
+    free(head->prev->Actors);
+    free(head->prev->Country);
+    free(head->prev->Director);
+    free(head->prev->Title);
+    free(head->prev->year);
     free(head->prev);
     head->prev = NULL;
     return head;
@@ -112,14 +132,18 @@ struct node *KillHead(struct node *head)
 
 struct node *KillTail(struct node *head)
 {
-    if(head->next == NULL)
+    if(head->next == NULL && head->prev == NULL)
     {
-        free(head);
-        return NULL;
+        return FreeList(head);
     }
     while(head->next != NULL)
         head = head->next;
     head = head->prev;
+    free(head->next->Actors);
+    free(head->next->Country);
+    free(head->next->Director);
+    free(head->next->Title);
+    free(head->next->year);
     free(head->next);
     head->next = NULL;
     while(head->prev != NULL)
@@ -136,8 +160,19 @@ struct node *FreeList(struct node *head)
     while(head->prev != NULL)
     {
         head = head->prev;
+
+        free(head->next->Actors);
+        free(head->next->Country);
+        free(head->next->Director);
+        free(head->next->Title);
+        free(head->next->year);
         free(head->next);
     }
+    free(head->Actors);
+    free(head->Country);
+    free(head->Director);
+    free(head->Title);
+    free(head->year);
     free(head);
     return NULL;
 }
@@ -179,14 +214,13 @@ FILE *SaveBD(struct node *bd, FILE *BD)
     {
         BD = fopen("Movies_DB.txt", "w+");
     }
-
     fputs(bd->Title,    BD ); fputc('\n', BD);
     fputs(bd->Director, BD ); fputc('\n', BD);
     fputs(bd->Country,  BD ); fputc('\n', BD);
     fputs(bd->Actors,   BD ); fputc('\n', BD);
     fputs(bd->year,     BD ); fputc('\n', BD);
 
-    do
+    while (bd->next != NULL)
     {
         bd  = bd->next;
         fputs(bd->Title,    BD ); fputc('\n', BD);
@@ -195,7 +229,6 @@ FILE *SaveBD(struct node *bd, FILE *BD)
         fputs(bd->Actors,   BD ); fputc('\n', BD);
         fputs(bd->year,     BD ); fputc('\n', BD);
     }
-    while (bd->next != NULL);
     return BD;
 };
 
@@ -206,21 +239,68 @@ struct node *OpenDB(struct node *bd, char bd_name[])
         return NULL;
     }
 
-    char title   [100] = " ";
-    char year    [4  ] = " ";
-    char country [100] = " ";
-    char director[100] = " ";
-    char actors  [100] = " ";
+    char title   [100] = "";
+    char year    [100] = "";
+    char country [100] = "";
+    char director[100] = "";
+    char actors  [100] = "";
 
     FILE * DB = fopen(bd_name, "r");
 
-    bd = malloc(sizeof(struct node));
+    fgets(title,    1000, DB);
 
-    //Append(bd, fgets(title,    100,DB), fgets(director,    100,DB), fgets(country,    100,DB), fgets(actors,    100,DB), fgets(year,    100,DB));
+    if(strcmp(title, "") == 0)
+    {
+        fclose(DB); 
+        return NULL;
+    }
+
+    rewind(DB);
+    int i = 0;
+
+    while(1)
+    {
+        fgets(title,    1000, DB);
+        if(feof(DB)) 
+        {
+            break;
+        }
+        while (title[i] != 10)
+        {
+            i++;
+        }
+        title[i] = 0; i = 0;
+        fgets(director, 1000, DB);
+        while (director[i] != 10)
+        {
+            i++;
+        }
+        director[i] = 0; i = 0;
+        fgets(country,  1000, DB);
+        while (country[i] != 10)
+        {
+            i++;
+        }
+        country[i] = 0; i = 0;
+        fgets(actors,   1000, DB);
+        while (actors[i] != 10)
+        {
+            i++;
+        }
+        actors[i] = 0; i = 0;
+        fgets(year,     1000,    DB);
+        while (year[i] != 10)
+        {
+            i++;
+        }
+        year[i] = 0;
+
+        bd = Append(bd, title, director, country, actors, year);
+    }
 
     fclose(DB);
 
-    return NULL;
+    return bd;
 }
 
 int main()
@@ -230,7 +310,7 @@ int main()
     struct node *Head = NULL;
 
     Head = OpenDB(Head, "Movies_DB.txt");
-
+    BD   = fopen("Movies_DB.txt", "w+");
     if (Head == NULL)
     {
         Head = SetonFire("Django Unchained", "Quentin Tarantino", "USA", "Jamie Foxx, Christoph Waltz, Leonardo DiCaprio, Kerry Washington, Samuel L. Jackson", "2012");
