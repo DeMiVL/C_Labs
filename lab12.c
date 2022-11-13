@@ -256,8 +256,8 @@ struct node *OpenDB(struct node *bd, char bd_name[])
     }
 
     rewind(DB);
-    int i = 0;
-
+    int i, j = 0, 0; 
+	
     while(1)
     {
         fgets(title,    1000, DB);
@@ -310,10 +310,11 @@ struct node *OpenDB(struct node *bd, char bd_name[])
             i++;
         }
         year[i] = 0;
-		
+		j++;
         bd = Append(bd, title, director, country, actors, year);
     }
-
+	if (j == 0)
+		printf("File is incorrect\n");
     fclose(DB);
 
     return bd;
