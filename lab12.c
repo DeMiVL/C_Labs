@@ -271,30 +271,46 @@ struct node *OpenDB(struct node *bd, char bd_name[])
         }
         title[i] = 0; i = 0;
         fgets(director, 1000, DB);
+        if(feof(DB)) 
+        {
+            break;
+        }
         while (director[i] != 10)
         {
             i++;
         }
         director[i] = 0; i = 0;
         fgets(country,  1000, DB);
+        if(feof(DB)) 
+        {
+            break;
+        }
         while (country[i] != 10)
         {
             i++;
         }
         country[i] = 0; i = 0;
         fgets(actors,   1000, DB);
+        if(feof(DB)) 
+        {
+            break;
+        }
         while (actors[i] != 10)
         {
             i++;
         }
         actors[i] = 0; i = 0;
         fgets(year,     1000,    DB);
+        if(feof(DB)) 
+        {
+            break;
+        }
         while (year[i] != 10)
         {
             i++;
         }
         year[i] = 0;
-
+		
         bd = Append(bd, title, director, country, actors, year);
     }
 
