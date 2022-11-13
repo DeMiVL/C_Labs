@@ -256,12 +256,12 @@ struct node *OpenDB(struct node *bd, char bd_name[])
     }
 
     rewind(DB);
-    int i, j = 0, 0; 
+    int i = 0, j = 0; 
 	
     while(1)
     {
         fgets(title,    1000, DB);
-        if(feof(DB)) 
+        if(feof(DB) || strcmp(title, "") == 0) 
         {
             break;
         }
@@ -271,7 +271,7 @@ struct node *OpenDB(struct node *bd, char bd_name[])
         }
         title[i] = 0; i = 0;
         fgets(director, 1000, DB);
-        if(feof(DB)) 
+        if(feof(DB) || strcmp(director, "") == 0) 
         {
             break;
         }
@@ -281,7 +281,7 @@ struct node *OpenDB(struct node *bd, char bd_name[])
         }
         director[i] = 0; i = 0;
         fgets(country,  1000, DB);
-        if(feof(DB)) 
+        if(feof(DB) || strcmp(country, "") == 0) 
         {
             break;
         }
@@ -291,7 +291,7 @@ struct node *OpenDB(struct node *bd, char bd_name[])
         }
         country[i] = 0; i = 0;
         fgets(actors,   1000, DB);
-        if(feof(DB)) 
+        if(feof(DB) || strcmp(actors, "") == 0) 
         {
             break;
         }
@@ -301,7 +301,7 @@ struct node *OpenDB(struct node *bd, char bd_name[])
         }
         actors[i] = 0; i = 0;
         fgets(year,     1000,    DB);
-        if(feof(DB)) 
+        if(feof(DB) || strcmp(year, "") == 0) 
         {
             break;
         }
@@ -314,7 +314,10 @@ struct node *OpenDB(struct node *bd, char bd_name[])
         bd = Append(bd, title, director, country, actors, year);
     }
 	if (j == 0)
+    {
+        return NULL;
 		printf("File is incorrect\n");
+    }
     fclose(DB);
 
     return bd;
@@ -330,6 +333,7 @@ int main()
     BD   = fopen("Movies_DB.txt", "w+");
     if (Head == NULL)
     {
+		printf("No data base file\n");
         Head = SetonFire("Django Unchained", "Quentin Tarantino", "USA", "Jamie Foxx, Christoph Waltz, Leonardo DiCaprio, Kerry Washington, Samuel L. Jackson", "2012");
         Head = Append(Head, "February", "Oz Perkins", "USA", "Emma Roberts, Kiernan Shipka, Lucy Boynton, James Remar, Lauren Holly", "2015");
         Head = Append(Head, "Terminator 2: Judgment Day", "James Cameron", "USA", "Arnold Schwarzenegger, Linda Hamilton, Edward Furlong, Robert Patrick", "1991");
@@ -337,6 +341,10 @@ int main()
         Head = Append(Head, "Fate/stay night Movie: Heaven's Feel - I. Presage Flower", "Tomonori Sudou", "Japan", "Noriaki Sugiyama, Noriko Shitaya, Ayako Kawasumi, Kana Ueda", "2018");
         Head = Append(Head, "Deftones - My Own Summer (Official Music Video)", "Dean Karr", "USA", "Chino Moreno, Stephen Carpenter, Chi Cheng, Abe Cunningham", "1997");
     }
+	else
+	{
+		printf("Worked on data base file\n");
+	}
 
     printf("BASE\n");
 
