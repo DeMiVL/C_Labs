@@ -119,6 +119,10 @@ struct node *KillbyName(struct node *head, char name[])
 
 struct node *KillHead(struct node *head)
 {
+	if (head->next == NULL)
+	{
+		return FreeList(head);
+	}
     head = head->next;
     free(head->prev->Actors);
     free(head->prev->Country);
@@ -239,11 +243,11 @@ struct node *OpenDB(struct node *bd, char bd_name[])
         return NULL;
     }
 
-    char title   [100] = "";
-    char year    [100] = "";
-    char country [100] = "";
-    char director[100] = "";
-    char actors  [100] = "";
+    char title   [200] = "";
+    char year    [200] = "";
+    char country [200] = "";
+    char director[200] = "";
+    char actors  [200] = "";
 
     FILE * DB = fopen(bd_name, "r");
 
