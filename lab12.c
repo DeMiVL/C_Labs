@@ -333,8 +333,10 @@ int main()
 
     struct node *Head = NULL;
 
-    Head = OpenDB(Head, "Movies_DB.txt");
-    BD   = fopen("Movies_DB.txt", "w+");
+    int operation;
+
+    //Head = OpenDB(Head, "Movies_DB.txt");
+
     if (Head == NULL)
     {
 		printf("No data base file\n");
@@ -350,39 +352,31 @@ int main()
 		printf("Worked on data base file\n");
 	}
 
-    printf("BASE\n");
+    BD   = fopen("Movies_DB.txt", "w+");
 
-    ChecktheClaws(Head);
-
-    // getchar();
-
-    // printf("ACTOR Arnold Schwarzenegger\n");
-
-    // ActorsMovies(Head, "Arnold Schwarzenegger");
-
-    // getchar();
-
-    // printf("Tail got Killed\n");
-
-    // Head = KillTail(Head);
-
-    // ChecktheClaws(Head);
-
-    // getchar();
-
-    // printf("February got Killed\n");
-
-    // Head = KillbyName(Head, "February");
-
-    // ChecktheClaws(Head);
-
-    // getchar();
-
-    // printf("Head got Killed\n");
-
-    // Head = KillHead(Head);
-    
-    // ChecktheClaws(Head);
+	//printf("Choose operation:\n1 - check the base\n2 - check actors movies\n3 - add new movie\n4 - remove movie by name\nany other char exit and save base\ninput -> ");
+    // while(1)
+    // {
+    //     scanf("%d", operation);
+    //     switch(operation)
+    //     {
+    //         case 1:
+    //             ChecktheClaws(Head);
+    //             break;
+    //         case 2:
+    //             ChecktheClaws(Head);
+    //             break;
+    //         case 3:
+    //             ChecktheClaws(Head);
+    //             break;
+    //         case 4:
+    //             ChecktheClaws(Head);
+    //             break;
+    //         default:
+    //             //printf("ss");
+    //             break;
+    //     }
+    // }
 
     SaveBD(Head, BD);
 
