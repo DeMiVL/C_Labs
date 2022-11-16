@@ -60,7 +60,6 @@ int main()
         a[i] = (int *)malloc(m * sizeof(int));
         if (!a[i])
         {
-            free(a);
             fail();
         }
     }
@@ -76,7 +75,7 @@ int main()
         printf("\n");
     }
 
-    printf("\n%4d\n", MaxInColumnMinInAll(n, m, a));
+    printf("\nmin of maxes = %4d\n", MaxInColumnMinInAll(n, m, a));
 
     for (i = 0; i < n; i++)
         free(a[i]);

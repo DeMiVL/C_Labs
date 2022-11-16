@@ -42,11 +42,14 @@ struct node *SetonFire(char title[], char director[], char country[], char actr[
 struct node *Append(struct node *head, char title[], char director[], char country[], char actr[], char year[])
 {
     if(head == NULL) return SetonFire(title, director, country, actr, year);
+
     struct node *Movie1 = malloc(sizeof(struct node));
+
     while(head->next != NULL)
     {
         head = head->next;
     }
+
     Movie1->Actors      = actr;
     Movie1->Director    = director;
     Movie1->Country     = country;
@@ -55,10 +58,12 @@ struct node *Append(struct node *head, char title[], char director[], char count
     Movie1->next        = NULL;
     Movie1->prev        = head;
     head->next          = Movie1;
+
     while(head->prev != NULL)
     {
         head = head->prev;
     }
+    
     return head;
 }
 
@@ -92,17 +97,23 @@ struct node *KillbyName(struct node *head, char name[])
         head = head->next;
     }
     while(head->next != NULL);
+
     printf("There is no such movie in our list\n");
+
     while(head->prev != NULL)
         head = head->prev;
+
     return head;
 }
 
 struct node *KillHead(struct node *head)
 {
     head = head->next;
+
     free(head->prev);
+
     head->prev = NULL;
+
     return head;
 }
 
@@ -115,11 +126,16 @@ struct node *KillTail(struct node *head)
     }
     while(head->next != NULL)
         head = head->next;
+
     head = head->prev;
+
     free(head->next);
+
     head->next = NULL;
+
     while(head->prev != NULL)
         head = head->prev;
+
     return head;
 }
 
@@ -129,11 +145,13 @@ struct node *FreeList(struct node *head)
     {
         head = head->next;
     }
+
     while(head->prev != NULL)
     {
         head = head->prev;
         free(head->next);
     }
+
     free(head);
     return NULL;
 }
