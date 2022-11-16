@@ -80,7 +80,7 @@ int main()
         n++;
         i += c;
         printf("\33[2K\r");
-        printf("\'%c - %d\'\n", i / n, i / n);
+        //printf("\'%c - %d\'\n", i / n, i / n);
         continue;
       }        
     } 

@@ -56,7 +56,9 @@ char *sepwords(char str[], char delitel[])
 
 int main()
 {
-    char strg[] = "Night time, cavity, come in\nDowntown, pony, work your pitch\nDaytime, dancer, I'll come inside\nGot my teacher, now carve your niche\0";
+    char strg[100];
+
+    scanf("%100[^\n\r]", strg);
 
     printf("\n%s\n", strg);
 
