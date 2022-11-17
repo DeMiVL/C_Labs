@@ -166,7 +166,6 @@ struct node *Kill(struct node *head)
         case 2:
         return KillTail(head);
         case 3:
-        printf("lol\n");
         getchar();
         printf("Input movie title: ");
         scanf("%100[^\n\r]", note);
@@ -189,7 +188,7 @@ struct node *KillbyName(struct node *head, char name[])
         head = head->next;
         if(strcmp(head->Title, name) == 0)
         {
-            return KillHead(head);
+            return Killer(head);
         }
     }
 
@@ -199,7 +198,7 @@ struct node *KillbyName(struct node *head, char name[])
 
 struct node *KillHead(struct node *head)
 {
-    return Killer(head);
+    return Killer(BacktoHead(head));
 }
 
 struct node *KillTail(struct node *head)
