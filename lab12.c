@@ -17,15 +17,64 @@ struct node
     struct node* prev;
 };
 
+struct node *Killer       (struct node *head);
+struct node *Kill         (struct node *head);
 struct node *KillHead     (struct node *head);
 struct node *KillbyName   (struct node *head, char name[]);
 struct node *KillTail     (struct node *head);
 void         ChecktheClaws(struct node *head);
 void         ActorsMovies (struct node *head);//, char name[]);
+struct node *BacktoHead   (struct node *head);
 struct node *SetonFire    (char title[], char director[], char country[], char actr[], char year[]);
 struct node *Append       (struct node *head, char title[], char director[], char country[], char actr[], char year[]);
 struct node *AppendInput  (struct node *head);
 struct node *FreeList     (struct node *head);
+
+
+struct node *Killer(struct node *head)
+{
+    free(head->Actors);
+    free(head->year);
+    free(head->Director);
+    free(head->Title);
+    free(head->Country);
+
+    if(head->next == NULL && head->prev == NULL)
+    {
+        free(head);
+        return NULL;
+    }
+    if(head->next == NULL)
+    {
+        head = head->prev;
+        free(head->next);
+        head->next = NULL;
+        return BacktoHead(head);
+    }
+    if(head->prev == NULL)
+    {
+        head = head->next;
+        free(head->prev);
+        head->prev = NULL;
+        return head;
+    }
+
+    head = head->prev;
+    head->next = head->next->next;
+    free(head->next->prev);
+    head->next->prev = head;
+
+    return BacktoHead(head);
+}
+
+struct node *BacktoHead(struct node *head)
+{
+    while(head->prev != NULL)
+    {
+        head = head->prev;
+    }
+    return head;
+}
 
 struct node *SetonFire(char *title, char *director, char *country, char *actr, char *year)
 {
@@ -103,67 +152,54 @@ struct node *AppendInput  (struct node *head)
 
 }
 
+struct node *Kill(struct node *head)
+{
+    int     d = 0;
+    char    note[100];
+    printf("Do u want to remove first movie, last or remove movie by its title? input 1, 2 or 3 respectively, any other number means no removal at all: ");
+
+    scanf("%d", &d);
+    switch(d)
+    {
+        case 1:
+        return KillHead(head);
+        case 2:
+        return KillTail(head);
+        case 3:
+        printf("lol\n");
+        getchar();
+        printf("Input movie title: ");
+        scanf("%100[^\n\r]", note);
+        return KillbyName(head, note);
+        default:
+        printf("No removal\n");
+        return head;
+    }
+}
+
 struct node *KillbyName(struct node *head, char name[])
 {
-    do
+    if(strcmp(head->Title, name) == 0)
     {
-        if (strcmp(head->Title, name) == 0)
-        {
-            if (head->next == NULL && head->prev == NULL)
-            {
-                return FreeList(head);
-            }
-            if (head->next == NULL)
-            {
-                head->prev->next = NULL;
-                free(head->Actors);
-                free(head->Country);
-                free(head->Director);
-                free(head->year);
-                free(head->Title);
-                free(head);
-            }
-            if (head->prev == NULL)
-            {
-                return KillHead(head); 
-            }
-            head->prev->next = head->next;
-            head = head->prev;
-            free(head->next->prev->Actors);
-            free(head->next->prev->Country);
-            free(head->next->prev->Director);
-            free(head->next->prev->Title);
-            free(head->next->prev->year);
-            free(head->next->prev);
-            head->next->prev = head;
-            while(head->prev != NULL)
-                head = head->prev;
-            return head;
-        }
-        head = head->next;
+        return KillHead(head);
     }
-    while(head->next != NULL);
-    printf("There is no such movie in our list\n");
-    while(head->prev != NULL)
-        head = head->prev;
-    return head;
+
+    while(head->next != NULL)
+    {
+        head = head->next;
+        if(strcmp(head->Title, name) == 0)
+        {
+            return KillHead(head);
+        }
+    }
+
+    printf("No such movie in base\n");
+    return BacktoHead(head);
 }
 
 struct node *KillHead(struct node *head)
 {
-	if (head->next == NULL)
-	{
-		return FreeList(head);
-	}
-    head = head->next;
-    free(head->prev->Actors);
-    free(head->prev->Country);
-    free(head->prev->Director);
-    free(head->prev->Title);
-    free(head->prev->year);
-    free(head->prev);
-    head->prev = NULL;
-    return head;
+    return Killer(head);
 }
 
 struct node *KillTail(struct node *head)
@@ -174,42 +210,16 @@ struct node *KillTail(struct node *head)
     }
     while(head->next != NULL)
         head = head->next;
-    head = head->prev;
-    free(head->next->Actors);
-    free(head->next->Country);
-    free(head->next->Director);
-    free(head->next->Title);
-    free(head->next->year);
-    free(head->next);
-    head->next = NULL;
-    while(head->prev != NULL)
-        head = head->prev;
-    return head;
+
+    return Killer(head);
 }
 
 struct node *FreeList(struct node *head)
 {
-    while(head->next != NULL)
+    while(head != NULL)
     {
-        head = head->next;
+        head = Killer(head);
     }
-    while(head->prev != NULL)
-    {
-        head = head->prev;
-
-        free(head->next->Actors);
-        free(head->next->Country);
-        free(head->next->Director);
-        free(head->next->Title);
-        free(head->next->year);
-        free(head->next);
-    }
-    free(head->Actors);
-    free(head->Country);
-    free(head->Director);
-    free(head->Title);
-    free(head->year);
-    free(head);
     return NULL;
 }
 
@@ -370,7 +380,7 @@ int main()
 
     struct node *Head = NULL;
 
-    int operation = 0;
+    int operation     = 0;
 
     Head = OpenDB(Head, "Movies_DB.txt");
 
@@ -391,7 +401,7 @@ int main()
 
     while(operation != -1)
     {
-        printf("Choose operation:\n1 - check the base\n2 - check actors movies\n3 - add new movie\n4 - remove movie by name\nany other char exit and save base\ninput -> ");
+        printf("Choose operation:\n1 - check the base\n2 - check actors movies\n3 - add new movie\n4 - remove movie\nany other char exit and save base\ninput -> ");
         scanf("%d", &operation);
         switch(operation)
         {
@@ -406,10 +416,10 @@ int main()
             case 3:
                 getchar();
                 AppendInput(Head);
-                // ChecktheClaws(Head);
                 break;
             case 4:
-                ChecktheClaws(Head);
+                getchar();
+                Head = Kill(Head);
                 break;
             default:
                 operation = -1;
