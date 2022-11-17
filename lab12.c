@@ -219,7 +219,7 @@ struct node *FreeList(struct node *head)
     {
         head = Killer(head);
     }
-    return NULL;
+    return head;
 }
 
 void ChecktheClaws(struct node *head)
@@ -306,7 +306,7 @@ struct node *OpenDB(struct node *bd, char bd_name[])
     }
 
     rewind(DB);
-    int i = 0, j = 0; 
+    int j = 0; 
 	
     while(1)
     {
@@ -315,51 +315,31 @@ struct node *OpenDB(struct node *bd, char bd_name[])
         {
             break;
         }
-        while (title[i] != 10)
-        {
-            i++;
-        }
-        title[i] = 0; i = 0;
+        strtok(title, "\n");
         fgets(director, 1000, DB);
         if(feof(DB) || strcmp(director, "") == 0) 
         {
             break;
         }
-        while (director[i] != 10)
-        {
-            i++;
-        }
-        director[i] = 0; i = 0;
+        strtok(director, "\n");
         fgets(country,  1000, DB);
         if(feof(DB) || strcmp(country, "") == 0) 
         {
             break;
         }
-        while (country[i] != 10)
-        {
-            i++;
-        }
-        country[i] = 0; i = 0;
+        strtok(country, "\n");
         fgets(actors,   1000, DB);
         if(feof(DB) || strcmp(actors, "") == 0) 
         {
             break;
         }
-        while (actors[i] != 10)
-        {
-            i++;
-        }
-        actors[i] = 0; i = 0;
+        strtok(actors, "\n");
         fgets(year,     1000,    DB);
         if(feof(DB) || strcmp(year, "") == 0) 
         {
             break;
         }
-        while (year[i] != 10)
-        {
-            i++;
-        }
-        year[i] = 0;
+        strtok(year, "\n");
 		j++;
         bd = Append(bd, title, director, country, actors, year);
     }
@@ -428,7 +408,7 @@ int main()
 
     SaveBD(Head, BD);
 
-    FreeList(Head);
+    Head = FreeList(Head);
 
     fclose(BD);
 
