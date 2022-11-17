@@ -21,9 +21,10 @@ struct node *KillHead     (struct node *head);
 struct node *KillbyName   (struct node *head, char name[]);
 struct node *KillTail     (struct node *head);
 void         ChecktheClaws(struct node *head);
-void         ActorsMovies (struct node *head, char name[]);
+void         ActorsMovies (struct node *head);//, char name[]);
 struct node *SetonFire    (char title[], char director[], char country[], char actr[], char year[]);
 struct node *Append       (struct node *head, char title[], char director[], char country[], char actr[], char year[]);
+struct node *AppendInput  (struct node *head);
 struct node *FreeList     (struct node *head);
 
 struct node *SetonFire(char *title, char *director, char *country, char *actr, char *year)
@@ -69,6 +70,37 @@ struct node *Append(struct node *head, char *title, char *director, char *countr
         head = head->prev;
     }
     return head;
+}
+
+struct node *AppendInput  (struct node *head)
+{
+    char title      [100];
+    char director   [100];
+    char country    [100];
+    char actr       [100];
+    char year       [5];
+
+    printf("Input movie title: ");
+    scanf("%100[^\n\r]",    title);
+                getchar();
+
+    printf("Input director of a movie: ");
+    scanf("%100[^\n\r]",    director);
+                getchar();
+
+    printf("Input country of a movie: ");
+    scanf("%100[^\n\r]",    country);
+                getchar();
+
+    printf("Input actors of a movie: ");
+    scanf("%100[^\n\r]",    actr);
+                getchar();
+
+    printf("Input year of a movie: ");
+    scanf("%5[^\n\r]",      year);
+
+    return Append(head, title, director, country, actr, year);
+
 }
 
 struct node *KillbyName(struct node *head, char name[])
@@ -195,8 +227,13 @@ void ChecktheClaws(struct node *head)
     }
 }
 
-void ActorsMovies(struct node *head, char name[])
+void ActorsMovies(struct node *head)//, char name[])
 {
+    char name[100];
+
+    printf("Input actors name and second name: ");
+    scanf("%100[^\n\r]", name);
+
     int i = 0;
     while(1)
     {
@@ -333,9 +370,9 @@ int main()
 
     struct node *Head = NULL;
 
-    int operation;
+    int operation = 0;
 
-    //Head = OpenDB(Head, "Movies_DB.txt");
+    Head = OpenDB(Head, "Movies_DB.txt");
 
     if (Head == NULL)
     {
@@ -352,31 +389,33 @@ int main()
 		printf("Worked on data base file\n");
 	}
 
-    BD   = fopen("Movies_DB.txt", "w+");
-
-	//printf("Choose operation:\n1 - check the base\n2 - check actors movies\n3 - add new movie\n4 - remove movie by name\nany other char exit and save base\ninput -> ");
-    // while(1)
-    // {
-    //     scanf("%d", operation);
-    //     switch(operation)
-    //     {
-    //         case 1:
-    //             ChecktheClaws(Head);
-    //             break;
-    //         case 2:
-    //             ChecktheClaws(Head);
-    //             break;
-    //         case 3:
-    //             ChecktheClaws(Head);
-    //             break;
-    //         case 4:
-    //             ChecktheClaws(Head);
-    //             break;
-    //         default:
-    //             //printf("ss");
-    //             break;
-    //     }
-    // }
+    while(operation != -1)
+    {
+        printf("Choose operation:\n1 - check the base\n2 - check actors movies\n3 - add new movie\n4 - remove movie by name\nany other char exit and save base\ninput -> ");
+        scanf("%d", &operation);
+        switch(operation)
+        {
+            case 1:
+                ChecktheClaws(Head);
+                break;
+            case 2:
+                printf("\n");
+                getchar();
+                ActorsMovies(Head);
+                break;
+            case 3:
+                getchar();
+                AppendInput(Head);
+                // ChecktheClaws(Head);
+                break;
+            case 4:
+                ChecktheClaws(Head);
+                break;
+            default:
+                operation = -1;
+                break;
+        }
+    }
 
     SaveBD(Head, BD);
 
