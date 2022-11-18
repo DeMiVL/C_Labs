@@ -131,20 +131,16 @@ struct node *AppendInput  (struct node *head)
 
     printf("Input movie title: ");
     scanf("%100[^\n\r]",    title);
-                getchar();
-
+    getchar();
     printf("Input director of a movie: ");
     scanf("%100[^\n\r]",    director);
-                getchar();
-
+    getchar();
     printf("Input country of a movie: ");
     scanf("%100[^\n\r]",    country);
-                getchar();
-
+    getchar();
     printf("Input actors of a movie: ");
     scanf("%100[^\n\r]",    actr);
-                getchar();
-
+    getchar();
     printf("Input year of a movie: ");
     scanf("%5[^\n\r]",      year);
 
@@ -156,7 +152,8 @@ struct node *Kill(struct node *head)
 {
     int     d = 0;
     char    note[100];
-    printf("Do u want to remove first movie, last or remove movie by its title? input 1, 2 or 3 respectively, any other number means no removal at all: ");
+    printf("Do u want to remove first movie, last movie or remove movie by its title? \
+    input 1, 2 or 3 respectively, any other number means no removal at all: ");
 
     scanf("%d", &d);
     switch(d)
@@ -224,7 +221,8 @@ struct node *FreeList(struct node *head)
 
 void ChecktheClaws(struct node *head)
 {
-    printf("Movie:\t  %s\nYear:\t  %s\nCountry:  %s\nDirector: %s\nStars:\t  %s\n\n", head->Title, head->year, head->Country, head->Director, head->Actors);
+    printf("Movie:\t  %s\nYear:\t  %s\nCountry:  %s\nDirector: %s\nStars:\t  %s\n\n", \
+                      head->Title, head->year,   head->Country,head->Director,head->Actors);
     while(1)
     {
         if (head->next == NULL)
@@ -232,7 +230,8 @@ void ChecktheClaws(struct node *head)
             break;
         }
         head = head->next;
-        printf("Movie:\t  %s\nYear:\t  %s\nCountry:  %s\nDirector: %s\nStars:\t  %s\n\n", head->Title, head->year, head->Country, head->Director, head->Actors);
+        printf("Movie:\t  %s\nYear:\t  %s\nCountry:  %s\nDirector: %s\nStars:\t  %s\n\n", \
+                          head->Title, head->year,   head->Country,head->Director,head->Actors);
     }
 }
 
@@ -296,7 +295,12 @@ struct node *OpenDB(struct node *bd, char bd_name[])
     char actors  [200] = "";
 
     FILE * DB = fopen(bd_name, "r");
-
+	
+	if (DB == NULL) 
+    {    
+        printf("NoFile\n");
+        return NULL;
+    }	
     fgets(title,    1000, DB);
 
     if(strcmp(title, "") == 0)
