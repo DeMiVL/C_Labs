@@ -298,7 +298,7 @@ struct node *OpenDB(struct node *bd, char bd_name[])
 	
 	if (DB == NULL) 
     {    
-        printf("NoFile\n");
+        printf("No File\n");
         return NULL;
     }	
     fgets(title,    1000, DB);
