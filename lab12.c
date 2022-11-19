@@ -239,7 +239,7 @@ void ActorsMovies(struct node *head)//, char name[])
 {
     char name[100];
 
-    printf("Input actors name and second name: ");
+    printf("Input actors name: ");
     scanf("%100[^\n\r]", name);
 
     int i = 0;
