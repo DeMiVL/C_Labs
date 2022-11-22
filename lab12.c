@@ -25,6 +25,7 @@ struct node *KillTail     (struct node *head);
 void         ChecktheClaws(struct node *head);
 void         ActorsMovies (struct node *head);//, char name[]);
 struct node *BacktoHead   (struct node *head);
+struct node *RuntoTail	  (struct node *head);
 struct node *SetonFire    (char title[], char director[], char country[], char actr[], char year[]);
 struct node *Append       (struct node *head, char title[], char director[], char country[], char actr[], char year[]);
 struct node *AppendInput  (struct node *head);
@@ -76,6 +77,15 @@ struct node *BacktoHead(struct node *head)
     return head;
 }
 
+struct node *RuntoTail(struct node *head)
+{
+    while(head->next != NULL)
+    {
+        head = head->next;
+    }
+    return head;
+}
+
 struct node *SetonFire(char *title, char *director, char *country, char *actr, char *year)
 {
     struct node *Movie1 = malloc(sizeof(struct node));
@@ -112,13 +122,9 @@ struct node *Append(struct node *head, char *title, char *director, char *countr
 
     Movie1->next        = NULL;
     Movie1->prev        = head;
-    head->next          = Movie1;
+    head  ->next        = Movie1;
 
-    while(head->prev != NULL)
-    {
-        head = head->prev;
-    }
-    return head;
+    return BacktoHead(head);
 }
 
 struct node *AppendInput  (struct node *head)
@@ -130,19 +136,19 @@ struct node *AppendInput  (struct node *head)
     char year       [5];
 
     printf("Input movie title: ");
-    scanf("%100[^\n\r]",    title);
+    scanf ("%100[^\n\r]",    title);
     getchar();
     printf("Input director of a movie: ");
-    scanf("%100[^\n\r]",    director);
+    scanf ("%100[^\n\r]",    director);
     getchar();
     printf("Input country of a movie: ");
-    scanf("%100[^\n\r]",    country);
+    scanf ("%100[^\n\r]",    country);
     getchar();
     printf("Input actors of a movie: ");
-    scanf("%100[^\n\r]",    actr);
+    scanf ("%100[^\n\r]",    actr);
     getchar();
     printf("Input year of a movie: ");
-    scanf("%5[^\n\r]",      year);
+    scanf ("%5[^\n\r]",      year);
 
     return Append(head, title, director, country, actr, year);
 
@@ -169,7 +175,7 @@ struct node *Kill(struct node *head)
         return KillbyName(head, note);
         default:
         printf("No removal\n");
-        return head;
+        return BacktoHead(head);
     }
 }
 
@@ -200,14 +206,7 @@ struct node *KillHead(struct node *head)
 
 struct node *KillTail(struct node *head)
 {
-    if(head->next == NULL && head->prev == NULL)
-    {
-        return FreeList(head);
-    }
-    while(head->next != NULL)
-        head = head->next;
-
-    return Killer(head);
+    return Killer(RuntoTail(head));
 }
 
 struct node *FreeList(struct node *head)
