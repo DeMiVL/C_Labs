@@ -20,6 +20,7 @@ struct node *Killer       (struct node *head);
 struct node *Kill         (struct node *head);
 struct node *KillHead     (struct node *head);
 struct node *KillbyName   (struct node *head, char name[]);
+struct node *KillbyNumber (struct node *head, int i);
 struct node *KillTail     (struct node *head);
 void         ChecktheClaws(struct node *head);
 void         ActorsMovies (struct node *head);//, char name[]);
@@ -153,10 +154,9 @@ struct node *AppendInput  (struct node *head)
 
 struct node *Kill(struct node *head)
 {
-    int     d = 0;
+    int     d = 0, i = 0;
     char    note[100];
-    printf("Do u want to remove first movie, last movie or remove movie by its title? \
-    input 1, 2 or 3 respectively, any other number means no removal at all: ");
+    printf("Do u want to remove first movie, last movie or remove movie by its title or number? Input 1, 2, 3 or 4 respectively, any other number means no removal at all: ");
 
     scanf("%d", &d);
     switch(d)
@@ -170,10 +170,38 @@ struct node *Kill(struct node *head)
         printf("Input movie title: ");
         scanf("%100[^\n\r]", note);
         return KillbyName(head, note);
+        case 4:
+        getchar();
+        printf("Input movie number: ");
+        scanf("%d", &i);
+        return KillbyNumber(head, i);
         default:
         printf("No removal\n");
         return BacktoHead(head);
     }
+}
+
+struct node *KillbyNumber(struct node *head, int i)
+{
+    head = BacktoHead(head);
+    int j = 1;
+    if (i == j) return Killer(head);
+    for (j = 1; j <= i; j++)
+    {
+        head = head->next;
+        if (head->next == NULL && j != i - 1)
+        {
+            printf("No such movie in base\n");
+            return BacktoHead(head);
+        }
+        if(j == i - 1)
+        {
+            return Killer(head);
+        }
+    }
+
+    printf("No such movie in base\n");
+    return BacktoHead(head);
 }
 
 struct node *KillbyName(struct node *head, char name[])
