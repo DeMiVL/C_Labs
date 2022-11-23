@@ -2,7 +2,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-
 struct node
 {
     // element settings:
@@ -108,11 +107,10 @@ struct node *Append(struct node *head, char *title, char *director, char *countr
     { 
         return SetonFire(title, director, country, actr, year);
     }
+
     struct node *Movie1 = malloc(sizeof(struct node));
-    while(head->next != NULL)
-    {
-        head = head->next;
-    }
+
+    head = RuntoTail(head);
 
     Movie1->Actors      = strdup(actr);
     Movie1->Director    = strdup(director);
@@ -151,7 +149,6 @@ struct node *AppendInput  (struct node *head)
     scanf ("%5[^\n\r]",      year);
 
     return Append(head, title, director, country, actr, year);
-
 }
 
 struct node *Kill(struct node *head)
@@ -215,6 +212,7 @@ struct node *FreeList(struct node *head)
     {
         head = Killer(head);
     }
+
     return head;
 }
 
@@ -234,7 +232,7 @@ void ChecktheClaws(struct node *head)
     }
 }
 
-void ActorsMovies(struct node *head)//, char name[])
+void ActorsMovies(struct node *head)
 {
     char name[100];
 
@@ -255,13 +253,19 @@ void ActorsMovies(struct node *head)//, char name[])
     if(i == 0) printf("No such actor in our data base\n");
 }
 
-FILE *SaveBD(struct node *bd, FILE *BD)
+void SaveBD(struct node *bd, char *BDn)
 {
-    if (bd == NULL) return BD;
-    if (BD == NULL)
+    FILE *BD = NULL;
+    if (bd == NULL) return;
+    if (strcmp(BDn, "") == 0)
     {
         BD = fopen("Movies_DB.txt", "w+");
     }
+    else
+    {
+        BD = fopen(BDn, "w+");
+    }
+
     fputs(bd->Title,    BD ); fputc('\n', BD);
     fputs(bd->Director, BD ); fputc('\n', BD);
     fputs(bd->Country,  BD ); fputc('\n', BD);
@@ -277,7 +281,7 @@ FILE *SaveBD(struct node *bd, FILE *BD)
         fputs(bd->Actors,   BD ); fputc('\n', BD);
         fputs(bd->year,     BD ); fputc('\n', BD);
     }
-    return BD;
+    fclose(BD);
 };
 
 struct node *OpenDB(struct node *bd, char bd_name[])
@@ -358,11 +362,9 @@ struct node *OpenDB(struct node *bd, char bd_name[])
 
 int main()
 {
-    FILE        *BD   = NULL;
-
     struct node *Head = NULL;
 
-    int operation     = 0;
+    int operation     = -10;
 
     Head = OpenDB(Head, "Movies_DB.txt");
 
@@ -381,7 +383,7 @@ int main()
 		printf("Worked on data base file\n");
 	}
 
-    while(operation != -1)
+    while(operation)
     {
         printf("Choose operation:\n1 - check the base\n2 - check actors movies\n3 - add new movie\n4 - remove movie\nany other char exit and save base\ninput -> ");
         scanf("%d", &operation);
@@ -397,23 +399,24 @@ int main()
                 break;
             case 3:
                 getchar();
+                printf("Add movie:\n");
                 AppendInput(Head);
                 break;
             case 4:
                 getchar();
+                printf("Removing element:\n");
                 Head = Kill(Head);
                 break;
             default:
-                operation = -1;
+                operation = 0;
+                printf("Save and exit\n");
                 break;
         }
     }
 
-    SaveBD(Head, BD);
+    SaveBD(Head, "Movies_DB.txt");
 
     Head = FreeList(Head);
-
-    fclose(BD);
 
     return 1;
 }
