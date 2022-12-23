@@ -1,42 +1,20 @@
-#include <termios.h>
 #include <stdio.h>
+#include <termios.h>
+#include <unistd.h>
 
 static struct termios old, current;
 
-/* Initialize new terminal i/o settings */
-void initTermios(int echo) 
+int mygetch()
 {
-  tcgetattr(0, &old); /* grab old terminal i/o settings */
-  current = old; /* make new settings same as old settings */
-  current.c_lflag &= ~ICANON; /* disable buffered i/o */
-  if (echo) {
-      current.c_lflag |= ECHO; /* set echo mode */
-  } else {
-      current.c_lflag &= ~ECHO; /* set no echo mode */
-  }
-  tcsetattr(0, TCSANOW, &current); /* use these new terminal i/o settings now */
-}
-
-/* Restore old terminal i/o settings */
-void resetTermios(void) 
-{
-  tcsetattr(0, TCSANOW, &old);
-}
-
-/* Read 1 character - echo defines echo mode */
-char getch_(int echo) 
-{
-  char ch;
-  initTermios(echo);
-  ch = getchar();
-  resetTermios();
-  return ch;
-}
-
-/* Read 1 character without echo */
-char getch(void) 
-{
-  return getch_(0);
+    struct termios oldt, newt;
+    int c;
+    tcgetattr(STDIN_FILENO, &oldt);
+    newt = oldt;
+    newt.c_lflag &= ~(ICANON | ECHO);
+    tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+    c = getchar();
+    tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+    return c;
 }
 
 int main()
@@ -45,13 +23,13 @@ int main()
     int  n = 0;
     while(1)
     {
-      char c = getch();;
+      char c = mygetch();;
       if(c == 27)
       {
-        c = getch();
+        c = mygetch();
         if (c == 79)
         {
-          c = getch();
+          c = mygetch();
           if (c == 80) 
           { 
             return 0;
@@ -63,14 +41,14 @@ int main()
         }
         else if(c == 91)
         {
-          c = getch();
+          c = mygetch();
           if (c == 65 || c == 66 || c == 67 || c == 68 || c == 70 || c == 72)
           {
             continue;
           }
-          c = getch();
+          c = mygetch();
           if (c == 126) continue;
-          c = getch();
+          c = mygetch();
           if (c == 126) continue;
           continue;
         }
@@ -80,7 +58,7 @@ int main()
         n++;
         i += c;
         printf("\33[2K\r");
-        //printf("\'%c - %d\'\n", i / n, i / n);
+        printf("\'%c - %d\'\n", i / n, i / n);
         continue;
       }        
     } 
